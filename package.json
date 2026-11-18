@@ -4,9 +4,9 @@
   "private": true,
   "description": "Cricket and football scoreboard with a live big screen and MAX7219 LED output",
   "scripts": {
-    "start": "node server.js"
+    "local": "node server.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": "22.x"
   }
 }
