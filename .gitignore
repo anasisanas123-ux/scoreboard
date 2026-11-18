@@ -1,0 +1,4 @@
+.scoreboard-state.json
+.env*
+node_modules/
+.vercel

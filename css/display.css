@@ -1,0 +1,107 @@
+/* Big-screen scoreboard for a TV or projector. Sizes scale with the window. */
+body.screen { height: 100vh; overflow: hidden; font-size: clamp(14px, 1.4vw, 28px); }
+.fs-btn {
+  position: fixed; right: 1.2vw; bottom: 1.2vw; z-index: 20;
+  background: rgba(20, 27, 51, .85); color: var(--muted); border: 1px solid var(--line);
+  border-radius: 999px; padding: 8px 14px; font: 600 13px var(--ui); cursor: pointer; opacity: .6;
+}
+.fs-btn:hover { opacity: 1; color: var(--text); }
+:fullscreen .fs-btn { display: none; }
+
+.d-view { height: 100vh; display: grid; grid-template-rows: auto 1fr auto; gap: 2vh; padding: 2.5vh 2.5vw; }
+.d-top { display: flex; align-items: center; gap: 1.5vw; }
+.d-badge {
+  font: 700 .8em var(--ui); text-transform: uppercase; letter-spacing: .1em;
+  color: var(--accent); background: rgba(61, 220, 132, .12); border: 1px solid rgba(61, 220, 132, .35);
+  padding: .4em .9em; border-radius: 999px;
+}
+.d-match { font-size: 1.05em; color: var(--muted); font-weight: 600; }
+.d-live { margin-left: auto; display: flex; align-items: center; gap: .5em; font: 800 .8em var(--ui); letter-spacing: .15em; color: var(--red); }
+.d-live.off { color: var(--muted); }
+.d-live.off .dot { background: var(--muted); box-shadow: none; animation: none; }
+.d-live.off::after { content: " · reconnecting"; letter-spacing: .05em; font-weight: 600; }
+.d-live .dot { width: .7em; height: .7em; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px var(--red); animation: blink 1.2s steps(2) infinite; }
+
+/* cricket */
+.d-main { display: grid; grid-template-columns: 1fr 1.25fr; gap: 2.5vw; min-height: 0; }
+.d-panel, .d-side {
+  background: linear-gradient(180deg, var(--card2), var(--card)); border: 1px solid var(--line);
+  border-radius: 1.2vw; padding: 3vh 2.2vw; min-height: 0;
+}
+.d-panel { display: flex; flex-direction: column; justify-content: center; gap: 1.6vh; position: relative; overflow: hidden; }
+.d-panel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px); }
+.d-team { font-size: 2.4em; font-weight: 800; line-height: 1.1; overflow-wrap: anywhere; }
+.d-vs { color: var(--muted); font-size: 1.05em; margin-top: -1vh; }
+.d-big { font-size: clamp(48px, 8.5vw, 190px); line-height: 1.05; color: #fff; text-shadow: 0 0 30px rgba(255, 200, 80, .35); white-space: nowrap; }
+.d-overs { font-size: 1.6em; color: var(--amber); }
+.d-info { font-size: 1.3em; font-weight: 700; color: var(--amber); min-height: 1.3em; }
+.d-over { display: flex; align-items: center; gap: 1vw; flex-wrap: wrap; color: var(--muted); }
+.d-over .chip { min-width: 2.2em; height: 2.2em; font-size: .9em; border-radius: .5em; }
+.d-side { display: grid; grid-template-rows: auto 1fr; gap: 2vh; }
+.d-scene { border-radius: .8vw; overflow: hidden; background: #1d2a4a; }
+.d-scene .scene { max-height: 46vh; width: 100%; }
+.d-players { width: 100%; border-collapse: collapse; font-size: 1.25em; align-self: start; }
+.d-players td { padding: 1vh .6vw; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.d-players td:first-child { font-weight: 700; }
+.d-players td:last-child { text-align: right; font-family: var(--pixel); font-size: .8em; }
+.d-players .strike::after { content: " *"; color: var(--amber); }
+.d-players .bowl td { color: #b9c3e6; border-bottom: 0; padding-top: 2vh; }
+.d-players .lbl { display: block; font: 600 .55em var(--ui); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.d-foot {
+  display: flex; gap: 2.5vw; flex-wrap: wrap; justify-content: center;
+  font-size: 1.05em; color: var(--muted); padding: 1.4vh 2vw; border-radius: 999px;
+  background: rgba(0,0,0,.25); border: 1px solid var(--line);
+}
+.d-foot b { color: var(--text); font-family: var(--pixel); font-size: .8em; font-weight: 400; margin-left: .4em; }
+.d-foot .result { color: var(--amber); font-weight: 800; font-size: 1.2em; }
+
+/* football */
+#dFootball { grid-template-rows: auto auto 1fr; }
+.d-fb { display: grid; grid-template-columns: 1fr auto 1fr; gap: 2vw; align-items: start; }
+.d-fteam { display: grid; justify-items: center; gap: 1.5vh; text-align: center; min-width: 0; }
+.d-fteam .kit { width: 3.2vw; height: 3.2vw; min-width: 28px; min-height: 28px; border-radius: .6vw; box-shadow: inset 0 -.5vw 0 rgba(0,0,0,.25); }
+.d-fteam.home .kit { background: var(--home); }
+.d-fteam.away .kit { background: var(--away); }
+.d-fmid { text-align: center; }
+.d-fmid .d-big { display: flex; gap: 2vw; justify-content: center; }
+.d-fmid .dash { color: var(--muted); }
+.d-clock { font-size: 2.2em; color: var(--amber); margin-top: 1.5vh; }
+.d-ev { list-style: none; margin: 0; padding: 0; display: grid; gap: .5vh; font-size: 1.05em; color: #c8d0ee; }
+.d-ev .m { color: var(--amber); font-family: var(--pixel); font-size: .7em; margin-left: .4em; }
+.d-ev .card-ic { width: .6em; height: .85em; }
+.d-scene.fb { align-self: stretch; display: grid; place-items: center; background: transparent; min-height: 0; }
+.d-scene.fb .scene { max-height: 100%; height: 100%; width: auto; max-width: 100%; border-radius: .8vw; }
+
+/* big flash overlay */
+.d-pop {
+  position: fixed; inset: 0; display: grid; place-items: center; pointer-events: none; z-index: 15;
+  font-family: var(--pixel); font-size: clamp(48px, 11vw, 260px); color: #fff;
+  text-shadow: 0 0 40px currentColor, 6px 6px 0 #000; opacity: 0;
+}
+.d-pop.show { animation: bigpop 2.4s ease-out forwards; }
+@keyframes bigpop {
+  0% { opacity: 0; transform: scale(.3); }
+  10% { opacity: 1; transform: scale(1.15); }
+  18% { transform: scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.05); }
+}
+
+@media (max-width: 800px), (max-aspect-ratio: 1/1) {
+  body.screen { overflow: auto; height: auto; }
+  .d-view { height: auto; min-height: 100vh; }
+  .d-main { grid-template-columns: 1fr; }
+  .d-badge { white-space: nowrap; }
+  .fs-btn { display: none; }
+  /* keep home | score | away side by side so it's clear whose score is whose */
+  .d-fb { grid-template-columns: 1fr auto 1fr; gap: 3vw; }
+  .d-fteam .d-team { font-size: 1.15em; }
+  .d-fmid .d-big { font-size: clamp(36px, 12vw, 90px); gap: 3vw; }
+  .d-clock { font-size: 1.4em; }
+  .d-ev { font-size: .9em; }
+  .d-scene.fb .scene { width: 100%; height: auto; }
+  #dFootball { grid-template-rows: auto auto auto; align-content: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .d-pop.show { animation: none !important; opacity: 1; }
+}

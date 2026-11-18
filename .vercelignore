@@ -1,0 +1,6 @@
+firmware/
+server.js
+start-server.bat
+.scoreboard-state.json
+.env*
+README.md

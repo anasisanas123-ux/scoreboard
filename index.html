@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scoreboard Screen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/display.css">
+</head>
+<body class="screen">
+<button id="fsBtn" class="fs-btn" type="button">Full screen (F)</button>
+
+<!-- ================= CRICKET ================= -->
+<section id="dCricket" class="d-view" hidden>
+  <header class="d-top">
+    <span id="dkInn" class="d-badge">1st innings</span>
+    <span id="dkMatch" class="d-match"></span>
+    <span class="d-live"><span class="dot"></span>LIVE</span>
+  </header>
+  <div class="d-main">
+    <div class="d-panel">
+      <div id="dkTeam" class="d-team"></div>
+      <div id="dkVs" class="d-vs"></div>
+      <div id="dkScore" class="d-big pixel">0/0</div>
+      <div id="dkOvers" class="d-overs pixel"></div>
+      <div id="dkInfo" class="d-info"></div>
+      <div class="d-over"><span>This over</span><div id="dkOver" class="chips"></div></div>
+    </div>
+    <div class="d-side">
+      <div class="d-scene"><svg id="dkScene" class="scene" role="img" aria-label="Cricket pitch"></svg></div>
+      <table class="d-players">
+        <tbody id="dkBat"></tbody>
+        <tbody id="dkBowl" class="bowl"></tbody>
+      </table>
+    </div>
+  </div>
+  <footer id="dkFoot" class="d-foot"></footer>
+</section>
+
+<!-- ================= FOOTBALL ================= -->
+<section id="dFootball" class="d-view" hidden>
+  <header class="d-top">
+    <span id="dfPeriod" class="d-badge">Pre-match</span>
+    <span id="dfMatch" class="d-match"></span>
+    <span class="d-live"><span class="dot"></span>LIVE</span>
+  </header>
+  <div class="d-fb">
+    <div class="d-fteam home"><span class="kit"></span><div id="dfHome" class="d-team"></div><ul id="dfHomeEv" class="d-ev"></ul></div>
+    <div class="d-fmid">
+      <div class="d-big pixel"><span id="dfHs">0</span><span class="dash">-</span><span id="dfAs">0</span></div>
+      <div id="dfClock" class="d-clock pixel">00:00</div>
+      <div id="dfMin" class="d-info"></div>
+    </div>
+    <div class="d-fteam away"><span class="kit"></span><div id="dfAway" class="d-team"></div><ul id="dfAwayEv" class="d-ev"></ul></div>
+  </div>
+  <div class="d-scene fb"><svg id="dfScene" class="scene" role="img" aria-label="Football pitch"></svg></div>
+</section>
+
+<div id="dPop" class="d-pop" aria-live="polite"></div>
+
+<script src="js/ui.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/screen.js"></script>
+</body>
+</html>

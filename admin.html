@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Match Scoreboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>SCOREBOARD</span></div>
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" data-sport="cricket" type="button">Cricket</button>
+    <button class="tab" role="tab" data-sport="football" type="button">Football</button>
+  </nav>
+  <button id="phoneBtn" class="conn-pill phone-btn" type="button"><span class="dot"></span><span id="phoneText">Share</span></button>
+  <a id="screenLink" class="conn-pill screen-link" href="./" target="sbscreen" title="Open the big-screen scoreboard for a TV or projector">Big screen ↗</a>
+  <button id="connPill" class="conn-pill" type="button"><span class="dot"></span><span id="connText">LED offline</span></button>
+  <button id="accountBtn" class="conn-pill account" type="button" hidden><span id="accountText"></span></button>
+</header>
+
+<main class="wrap">
+  <!-- ================= CRICKET ================= -->
+  <section id="view-cricket" class="view" hidden>
+    <div class="layout">
+      <div class="col">
+        <article class="card board">
+          <div id="ckEmpty" class="empty">
+            <p class="pixel">NO MATCH</p>
+            <p class="muted">Set the team names, overs and players to begin.</p>
+            <button id="ckStartBtn" class="btn primary lg" type="button">Start a cricket match</button>
+          </div>
+          <div id="ckLive" hidden>
+            <div class="board-top"><span id="ckInnings" class="badge">1st innings</span><span id="ckFirst" class="muted small"></span></div>
+            <div class="team-line"><h2 id="ckTeam">Team</h2><span id="ckVs" class="muted"></span></div>
+            <div class="score-line">
+              <span id="ckScore" class="pixel score">0/0</span>
+              <span class="overs"><span id="ckOvers" class="pixel">0.0</span><span class="muted"> / <span id="ckOversMax">20</span> ov</span></span>
+            </div>
+            <div class="stats">
+              <div><span>CRR</span><b id="ckCrr">0.00</b></div>
+              <div><span id="ckSlotLabel">Projected</span><b id="ckSlot">-</b></div>
+              <div><span>RRR</span><b id="ckRrr">-</b></div>
+              <div><span>Extras</span><b id="ckExtras">0</b></div>
+            </div>
+            <p id="ckChase" class="chase" hidden></p>
+            <div class="over-row"><span class="muted small">This over</span><div id="ckThisOver" class="chips"></div></div>
+            <div id="ckBanner" class="banner" hidden><span id="ckBannerText"></span><button id="ckSecondBtn" class="btn primary" type="button" hidden>Start 2nd innings</button></div>
+          </div>
+        </article>
+        <article class="card scene-card">
+          <svg id="cricketScene" class="scene" role="img" aria-label="Cricket pitch with bowler, batter and keeper"></svg>
+        </article>
+      </div>
+
+      <div class="col">
+        <article class="card controls" id="ckControls">
+          <div class="ctrl-head"><h3>Score the ball</h3><span id="ckArmHint" class="hint"></span></div>
+          <div class="runs">
+            <button class="btn run" data-runs="0" type="button">0</button>
+            <button class="btn run" data-runs="1" type="button">1</button>
+            <button class="btn run" data-runs="2" type="button">2</button>
+            <button class="btn run" data-runs="3" type="button">3</button>
+            <button class="btn run four" data-runs="4" type="button">4</button>
+            <button class="btn run" data-runs="5" type="button">5</button>
+            <button class="btn run six" data-runs="6" type="button">6</button>
+          </div>
+          <div class="extras">
+            <button class="btn extra" data-extra="wd" type="button">Wide</button>
+            <button class="btn extra" data-extra="nb" type="button">No ball</button>
+            <button class="btn extra" data-extra="b" type="button">Bye</button>
+            <button class="btn extra" data-extra="lb" type="button">Leg bye</button>
+          </div>
+          <div class="actions">
+            <button id="ckWicket" class="btn danger" type="button">Wicket</button>
+            <button id="ckSwap" class="btn" type="button">Swap strike</button>
+            <button id="ckBowlerBtn" class="btn" type="button">Change bowler</button>
+            <button id="ckUndo" class="btn" type="button">Undo</button>
+          </div>
+          <p class="keys">Keys: 0-6 runs · D wide · N no-ball · B bye · L leg-bye · W wicket · S swap · U undo</p>
+        </article>
+
+        <article class="card">
+          <table class="tbl" id="ckBatters">
+            <thead><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <table class="tbl" id="ckBowlers">
+            <thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <p id="ckLastOut" class="muted small"></p>
+          <p class="muted small">Tap a batter's name to rename them.</p>
+          <details class="scorecard"><summary>Full scorecard</summary><div id="ckCard"></div></details>
+        </article>
+
+        <article class="card row-actions">
+          <button id="ckNew" class="btn" type="button">New match</button>
+          <button id="ckEdit" class="btn" type="button">Edit teams</button>
+          <button id="ckEndInn" class="btn" type="button">End innings</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTBALL ================= -->
+  <section id="view-football" class="view" hidden>
+    <div class="layout">
+      <div class="col">
+        <article class="card board fb-board">
+          <div class="board-top"><span id="fbPeriod" class="badge">Pre-match</span><span id="fbHalfLen" class="muted small"></span></div>
+          <div class="fb-score">
+            <div class="fb-team home"><span class="kit"></span><h2 id="fbHomeName">Home</h2><div class="cards" id="fbHomeCards"></div></div>
+            <div class="fb-mid">
+              <div class="pixel score"><span id="fbHomeScore">0</span><span class="dash">-</span><span id="fbAwayScore">0</span></div>
+              <div id="fbClock" class="pixel clock">00:00</div>
+              <div id="fbMinute" class="muted small"></div>
+            </div>
+            <div class="fb-team away"><span class="kit"></span><h2 id="fbAwayName">Away</h2><div class="cards" id="fbAwayCards"></div></div>
+          </div>
+          <div class="clock-ctrl">
+            <button id="fbNext" class="btn primary" type="button">Kick off</button>
+            <button id="fbStart" class="btn" type="button">Pause</button>
+            <button id="fbMinus" class="btn" type="button">-1 min</button>
+            <button id="fbPlus" class="btn" type="button">+1 min</button>
+          </div>
+        </article>
+        <article class="card scene-card">
+          <svg id="footballScene" class="scene" role="img" aria-label="Football pitch"></svg>
+        </article>
+      </div>
+
+      <div class="col">
+        <article class="card controls" id="fbControls">
+          <div class="fb-controls">
+            <div class="side home" data-side="home">
+              <h3 id="fbHomeLabel">Home</h3>
+              <button data-act="goal" class="btn goal lg" type="button">+ Goal</button>
+              <div class="mini">
+                <button data-act="minus" class="btn" type="button">- Goal</button>
+                <button data-act="yellow" class="btn yellow" type="button">Yellow</button>
+                <button data-act="red" class="btn red" type="button">Red</button>
+              </div>
+            </div>
+            <div class="side away" data-side="away">
+              <h3 id="fbAwayLabel">Away</h3>
+              <button data-act="goal" class="btn goal lg" type="button">+ Goal</button>
+              <div class="mini">
+                <button data-act="minus" class="btn" type="button">- Goal</button>
+                <button data-act="yellow" class="btn yellow" type="button">Yellow</button>
+                <button data-act="red" class="btn red" type="button">Red</button>
+              </div>
+            </div>
+          </div>
+          <div class="actions single"><button id="fbUndo" class="btn" type="button">Undo</button></div>
+          <p class="keys">Keys: Q home goal · P away goal · Space kick off / pause · U undo</p>
+        </article>
+        <article class="card">
+          <h3>Match events</h3>
+          <ol id="fbEvents" class="events"></ol>
+          <p class="muted small">Tap an event to add the player's name.</p>
+        </article>
+        <article class="card row-actions">
+          <button id="fbNew" class="btn" type="button">New match</button>
+          <button id="fbEdit" class="btn" type="button">Edit teams</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LED PREVIEW ================= -->
+  <section class="card led-card">
+    <div class="led-head">
+      <h3>LED display <small id="ledInfo" class="muted"></small></h3>
+      <button id="ledSetup" class="btn" type="button">Connect / settings</button>
+    </div>
+    <div class="led-frame"><canvas id="ledCanvas" aria-label="Preview of the LED matrix"></canvas></div>
+    <div class="led-ctrl">
+      <label class="inline">Show
+        <select id="ledMode">
+          <option value="auto">Best-fit score (static)</option>
+          <option value="ticker">Full ticker (scrolling)</option>
+        </select>
+      </label>
+      <label class="inline check"><input type="checkbox" id="ledFlash"> Flash 4s, 6s, wickets &amp; goals</label>
+      <form id="ledMsgForm" class="msg">
+        <input id="ledMsg" placeholder="Custom message, e.g. RAIN DELAY" maxlength="120" autocomplete="off">
+        <button class="btn" type="submit">Show</button>
+        <button id="ledLive" class="btn" type="button" hidden>Back to score</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- Generic form dialog -->
+<dialog id="formDialog" class="dlg">
+  <form id="formDialogForm">
+    <h2 id="formTitle"></h2>
+    <p id="formNote" class="note" hidden></p>
+    <div id="formFields" class="fields"></div>
+    <menu><button type="button" id="formCancel" class="btn">Cancel</button><button type="submit" id="formOk" class="btn primary">OK</button></menu>
+  </form>
+</dialog>
+
+<!-- Display connection dialog -->
+<dialog id="displayDialog" class="dlg">
+  <form method="dialog">
+    <h2>LED display</h2>
+    <p class="muted small">An ESP32/ESP8266 with MAX7219 8×8 modules, running <code>firmware/scoreboard_esp</code>.</p>
+    <fieldset>
+      <legend>Wi-Fi</legend>
+      <div class="row"><input id="dHost" placeholder="192.168.1.50 or scoreboard.local" autocomplete="off"><button type="button" id="dWifi" class="btn primary">Connect</button></div>
+      <p id="dWifiState" class="small muted">The board scrolls its IP address when it powers on.</p>
+    </fieldset>
+    <fieldset>
+      <legend>USB cable (Chrome / Edge on a computer)</legend>
+      <div class="row"><button type="button" id="dUsb" class="btn">Connect USB</button><span id="dUsbState" class="small muted"></span></div>
+    </fieldset>
+    <fieldset>
+      <legend>Matrix</legend>
+      <label class="field">Modules chained (must match MAX_DEVICES in firmware)<input type="number" id="dModules" min="1" max="32"></label>
+      <label class="field">Brightness: <output id="dBrightOut"></output><input type="range" id="dBright" min="0" max="15"></label>
+      <label class="field">Scroll speed: <output id="dSpeedOut"></output> ms per column (lower is faster)<input type="range" id="dSpeed" min="10" max="120"></label>
+    </fieldset>
+    <menu><button class="btn primary" value="close">Done</button></menu>
+  </form>
+</dialog>
+
+<!-- Admin sign-in (only when served by server.js or Vercel with a password set) -->
+<dialog id="loginDialog" class="dlg login">
+  <form id="loginForm">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>SCOREBOARD</span></div>
+    <h2>Admin sign in</h2>
+    <p class="muted small">Sign in to score matches. Viewers don't need an account.</p>
+    <div class="fields">
+      <label class="field"><span>Username</span><input id="loginUser" name="username" autocomplete="username" value="admin" required></label>
+      <label class="field"><span>Password</span><input id="loginPass" name="password" type="password" autocomplete="current-password" required></label>
+    </div>
+    <p id="loginError" class="note" hidden></p>
+    <menu><a class="btn" href="./">View scoreboard</a><button id="loginSubmit" class="btn primary" type="submit">Sign in</button></menu>
+  </form>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/ui.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/led.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/cricket.js"></script>
+<script src="js/football.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
